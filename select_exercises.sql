@@ -26,10 +26,3 @@ FROM albums
 WHERE genre = 'rock';
 
 
-SELECT *
-FROM albums
-WHERE release_date < 1980;
-
-SELECT *
-FROM albums
-WHERE artist = 'michael jackson';
