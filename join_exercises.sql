@@ -78,11 +78,36 @@ group by r.name;
 USE employees; # switch db
 SELECT d.dept_name, concat(e.first_name, ' ', e.last_name) as Manager
 FROM employees as e
-    JOIN dept_emp as de
-        ON e.emp_no = de.emp_no
-    JOIN dept_manager as dm
-        ON de.emp_no = dm.emp_no
-    JOIN departments as d
-        ON d.dept_no = de.dept_no
-    WHERE de.to_date = '9999-01-01'
-    ORDER BY d.dept_name;
+         JOIN dept_emp as de
+              ON e.emp_no = de.emp_no
+                  AND de.to_date = '9999-01-01'
+         JOIN dept_manager as dm
+              ON de.emp_no = dm.emp_no
+         JOIN departments as d
+              ON d.dept_no = de.dept_no
+group by d.dept_name, concat(e.first_name, ' ', e.last_name)
+ORDER BY d.dept_name;
+
+SELECT d.dept_name, concat(e.first_name, ' ', e.last_name) as Manager
+from employees as e
+         JOIN dept_emp as de
+              ON e.emp_no = de.emp_no
+                  AND de.to_date = '9999-01-01'
+         JOIN dept_manager as dm
+              on e.emp_no = dm.emp_no
+                  AND dm.to_date = '9999-01-01'
+        JOIN departments as d ON dm.dept_no = d.dept_no
+ORDER BY dept_name;
+
+
+SELECT d.dept_name, concat(e.first_name, ' ', e.last_name) as Manager
+from employees as e
+         JOIN dept_emp as de
+              ON e.emp_no = de.emp_no
+                  AND de.to_date = '9999-01-01'
+                    AND e.gender = 'f'
+         JOIN dept_manager as dm
+              on e.emp_no = dm.emp_no
+                  AND dm.to_date = '9999-01-01'
+         JOIN departments as d ON dm.dept_no = d.dept_no
+ORDER BY dept_name;
