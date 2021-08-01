@@ -96,7 +96,7 @@ from employees as e
          JOIN dept_manager as dm
               on e.emp_no = dm.emp_no
                   AND dm.to_date = '9999-01-01'
-        JOIN departments as d ON dm.dept_no = d.dept_no
+         JOIN departments as d ON dm.dept_no = d.dept_no
 ORDER BY dept_name;
 
 
@@ -105,9 +105,33 @@ from employees as e
          JOIN dept_emp as de
               ON e.emp_no = de.emp_no
                   AND de.to_date = '9999-01-01'
-                    AND e.gender = 'f'
+                  AND e.gender = 'f'
          JOIN dept_manager as dm
               on e.emp_no = dm.emp_no
                   AND dm.to_date = '9999-01-01'
          JOIN departments as d ON dm.dept_no = d.dept_no
 ORDER BY dept_name;
+
+
+SELECT t.title, count(t.title)
+FROM titles as t
+         JOIN dept_emp as de ON t.emp_no = de.emp_no
+    AND de.to_date = '9999-01-01'
+         JOIN departments as d ON de.dept_no = d.dept_no
+    AND d.dept_no = 'd009'
+WHERE t.to_date = '9999-01-01'
+group by t.title
+order by count(t.title) desc
+
+
+SELECT d.dept_name, CONCAT(e.first_name, ' ', e.last_name) as Name, s.salary
+FROM employees AS e
+         JOIN salaries AS s ON e.emp_no = s.emp_no
+            AND s.to_date = '9999-01-01'
+         JOIN dept_emp AS de ON e.emp_no = de.emp_no
+            AND de.to_date = '9999-01-01'
+        JOIN dept_manager AS dm on e.emp_no = dm.emp_no
+            AND dm.to_date = '9999-01-01'
+        JOIN departments d on de.dept_no = d.dept_no
+ORDER BY salary desc
+
