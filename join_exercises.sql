@@ -138,7 +138,7 @@ ORDER BY salary desc
 #emp - dept - manager CURRENT
 
 SELECT CONCAT(e.first_name, ' ', e.last_name), e.emp_no, d.dept_name,
-       (SELECT e2.first_name
+       e.first_name where e.first_name in (SELECT e2.first_name
            FROM employees as e2 JOIN dept_emp de2 on e2.emp_no = de2.emp_no
            AND de2.to_date = '9999-01-01'
             JOIN dept_manager dm2 ON de2.emp_no = dm2.emp_no
@@ -153,3 +153,17 @@ JOIN dept_manager dm ON d.dept_no = dm.dept_no
 AND dm.to_date = '9999-01-01'
 
 ORDER BY dept_name;
+
+
+
+SELECT CONCAT(e.first_name, ' ', e.last_name) as Employee,
+       d.dept_name as Department,
+       (SELECT CONCAT(manager_emp.first_name, ' ', manager_emp.last_name)
+           FROM employees as manager_emp
+           WHERE dm.emp_no = manager_emp.emp_no) as Manager
+        FROM employees AS e
+        JOIN dept_emp de ON e.emp_no = de.emp_no
+        JOIN dept_manager AS dm ON e.emp_no = dm.emp_no
+        JOIN departments d on de.dept_no = d.dept_no
+WHERE dm.to_date = '9999-01-01'
+AND de.to_date = '9999-01-01';
